@@ -1,4 +1,6 @@
-# download openrc.sh from Horizon and grep it for credetials:
+# download openrc.sh from Horizon and grep it for credetials
+# Значения переменных для доcтупа взять из файла openrc.sh,
+# который можно скачать в интерфейса Horizon
 # egrep "OS_USERNAME=|OS_PROJECT_NAME=|OS_USER_DOMAIN_NAME=|OS_PROJECT_DOMAIN_ID=" openrc.sh
 variable "user_name" {
     description = "OS_USERNAME"  

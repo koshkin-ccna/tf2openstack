@@ -1,5 +1,5 @@
 # CENTOS CLOUD IMAGE
-# Downloads image form official CentOS repo
+# Downloads image from official CentOS repo
 # Uploads image to openstack images storage
 # Defines optimized parameters for the image
 resource "openstack_images_image_v2" "centos1907cloud" {
@@ -42,7 +42,7 @@ resource "openstack_images_image_v2" "ubuntu-18043-mate-amd64-iso" {
   }
 }
 
-# Crete image fromcli
+# Create image fromcli
 # openstack image create --private --container-format bare \
 # --disk-format iso --property hw_cdrom_bus=ide --property \
 # hw_disk_bus=ide --file ~/Downloads/ubuntu-18.04.3-server-amd64.iso \

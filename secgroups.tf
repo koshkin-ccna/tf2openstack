@@ -34,6 +34,11 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_ssh" {
   security_group_id = "${openstack_networking_secgroup_v2.secgroup_ssh.id}"
 }
 ########################################
+#             ssh доступ               #
+#           с любых адресов            #
+########################################
+
+########################################
 #          WEB from ANY                #
 #    permit http/https from ANY        #
 ########################################
@@ -62,6 +67,10 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_https_all" {
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${openstack_networking_secgroup_v2.secgroup_web_all.id}"
 }
+########################################
+#      Веб доступ к http/https         #
+#           с любых адресов            #
+########################################
 
 ######################################################
 #               Netdata from local networks          #
@@ -91,6 +100,10 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_netdata_dc" {
   remote_ip_prefix  = "${var.iprange_dc}"
   security_group_id = "${openstack_networking_secgroup_v2.secgroup_netdata_local.id}"
 }
+######################################################
+#     Доступ к веб-интерфейсу мониторинга Netdata    #
+#           из локальных подсетей                    #
+######################################################
 
 ######################################################
 #               Dropbear SSH from ANY                #
@@ -110,3 +123,7 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_dropbear" {
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${openstack_networking_secgroup_v2.secgroup_dropbear.id}"
 }
+#######################################################
+#     Порт для доступа по кастомному порту ssh        #
+# с любого адреса. Для разблокировки luks хранилища.  #
+#######################################################
