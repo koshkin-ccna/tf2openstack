@@ -127,3 +127,57 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_dropbear" {
 #     Порт для доступа по кастомному порту ssh        #
 # с любого адреса. Для разблокировки luks хранилища.  #
 #######################################################
+
+######################################################
+#               Netdata from local networks          #
+#         permit access to Netdata webinterface      #
+######################################################
+resource "openstack_networking_secgroup_v2" "secgroup_netdata_local" {
+  name        = "secgroup_netdata_local"
+  description = "Allow Netdata from local networks"
+}
+resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_netdata_office" {
+  description       = "Allow Netdata from office"
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 19999
+  port_range_max    = 19999
+  remote_ip_prefix  = "172.22.1.0/24"
+  security_group_id = "${openstack_networking_secgroup_v2.secgroup_netdata_local.id}"
+}
+resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_netdata_vpn" {
+  description       = "Allow Netdata from vpn datacenter users"
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 19999
+  port_range_max    = 19999
+  remote_ip_prefix  = "172.22.7.0/24"
+  security_group_id = "${openstack_networking_secgroup_v2.secgroup_netdata_local.id}"
+}
+resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_netdata_dc" {
+  description       = "Allow Netdata from datacenter"
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 19999
+  port_range_max    = 19999
+  remote_ip_prefix  = "172.22.8.0/21"
+  security_group_id = "${openstack_networking_secgroup_v2.secgroup_netdata_local.id}"
+}
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_netdata_cloudinfra" {
+  description       = "Allow Netdata from cloud infra prod subnet"
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 19999
+  port_range_max    = 19999
+  remote_ip_prefix  = "10.80.80.0/24"
+  security_group_id = "${openstack_networking_secgroup_v2.secgroup_netdata_local.id}"
+}
+#################################################
+#      Доступ к веб-интерфейсу Netdata          #
+#            из локальных подсетей              #
+#################################################
